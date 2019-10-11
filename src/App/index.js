@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { useLanguage } from '../LanguageKit';
 import { useStrings } from './i18nStrings';
 
 function App(props) {
 
-	const [ language, setLanguage ] = useState('en');
-	const strings = useStrings(language);
+  const [ language, setLanguage ] = useLanguage('en');
+
+  const strings = useStrings(language);
 
   return (
     <div className="App">
