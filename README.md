@@ -13,81 +13,124 @@ This app uses [React hooks](https://reactjs.org/docs/hooks-intro.html), so ensur
 
 No external libs are currently being used
 
-## Initial approach
+## Defining a component's translations
 
-A language provider holds the language options and allows changing the active one.
-Meanwhile, the language consumer holds the active language for each component to use.
-
-The components that must be aware of i18n should then use the consumer to adjust its string resources.
-It's recommended to have a default language always implemented.
-
-## Pseudo code
-
-Each component will then have a strings file that would look something like the code below
+Each component must then declare strings object that would be used to map the current language to the correct string values.
 
 ```js
-// i18nStrings.js file
+// ComponentName/i18n/index.js file
 
-function load(language) {
-  const strings = languageMap[language];
-  if(!strings) {
-    return languageMap['default'];
-  } else {
-    return strings;
-  }
-}
+/* Both of these could be defined as inline objects aswell */
+const enStrings = require('./en.json');
+const ptStrings = require('./pt.json');
 
-const languageMap = {
-  'default': enStrings, //could be nice to enforce this one
-  'en': enStrings,
-}
-
-const enStrings = {
-  header: 'Edit <code>src/App.js</code> and save to reload.',
-  CTA: 'Learn React'
+export default {
+	en: enStrings,
+	pt: ptStrings,
 }
 ```
 
-Inside the component itself, this file would then be imported and its strings will be sourced according to the active language
+## Usage
+
+The concept of this module is based on three main actors:
+
+### LanguageProvider
+
+A provider to be used as the root for the tree that will be aware of language changes.
+
+This component is also the place to declare the default language and language options available for that tree.
+
+```jsx
+	<LanguageProvider
+		language={'pt'}
+		languages={['en', 'pt']}
+	>
+		<App />
+	</LanguageProvider>
+```
+
+### useLanguage
+
+A hook to access the current language, language options and change the current language.
+
+`useLanguage()` returns an array with the two entries: the current settings as its first element and a language setter as its last one.
+
+It can only be directly used inside functional components, as shown below.
+
+```js
+	const [ { language, options }, setLanguage ] = useLanguage();
+```
+
+### chooseStrings
+
+A function that receives a map and returns the one corresponding to the current language.
+
+For the following map:
+
+```js
+const i18nStrings = {
+	en: {
+		description: 'Currently using',
+		options: 'Options',
+	},
+	pt: {
+		description: 'Atualmente usando',
+		options: 'Opções',
+	},
+}
+```
+
+`chooseStrings(i18nStrings)` then would return the object mapped by the current language's key.
+
+
+## Sample
 
 ```jsx
 // App.js file
 
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import LanguageProvider, { useLanguage, chooseStrings } from './LanguageKit';
 
-import { useStrings } from './i18nStrings'
-
-function App() {
-
-  const strings = useStrings();
-
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          {strings.header}
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {strings.CTA}
-        </a>
-      </header>
-    </div>
-  );
+const i18nStrings = {
+	en: {
+		description: 'Currently using',
+		options: 'Options',
+	},
+	pt: {
+		description: 'Atualmente usando',
+		options: 'Opções',
+	},
 }
 
-export default App;
+function App() {
+	const strings = chooseStrings(i18nStrings);
+	const [ { language, options }, setLanguage ] = useLanguage();
 
+	return (
+		<>
+			<p>
+				{strings.description}: {language}
+			</p>
+
+			<p>
+				{strings.options}
+				<select value={language} onChange={e => setLanguage(e.target.value)}>
+					{options.map(option => (<option value={option}>{option.toUpperCase()}</option>))}
+				</select>
+			</p>
+		</>
+	);
+}
+
+export default function BaseApp() {
+	return (
+		<LanguageProvider
+			language={'pt'}
+			languages={['en', 'pt']}
+		>
+			<App />
+		</LanguageProvider>
+	);
+}
 ```
-
-## Current steps
-
-Defining the provider/consumer setup using the [context API](https://reactjs.org/docs/context.html)
 
