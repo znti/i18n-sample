@@ -15,27 +15,26 @@ No external libs are currently being used
 
 ## Defining a component's translations
 
-Each component must declare a map of language to strings object.
-This map will then be used to select the correct object based on the current language.
+Each component must declare a `string` to `object` map.
+This map will be used to select the correct object based on the current language.
 
 ```js
-// <ComponentName>/i18n/index.js sample file
-
-/* The object can be either imported from a JSON or defined inline */
+/* The objects can be either imported from a JSON or defined inline */
 const ptStrings = require('./pt.json');
 const enStrings = {
-	content: 'This is the content description'
+  content: 'This is the content description'
 };
 
+// This is the map for this component
 export default {
-	en: enStrings,
-	pt: ptStrings,
+  en: enStrings,
+  pt: ptStrings,
 }
 ```
 
-## Usage
+## How to use
 
-The concept of this module is based on three main actors:
+This module's usage is based on three main actors:
 
 ### LanguageProvider
 
@@ -44,12 +43,12 @@ A provider to be used as the root for the tree that will be aware of language ch
 This component is also the place to declare the default language and language options available for that tree.
 
 ```jsx
-	<LanguageProvider
-		language={'pt'}
-		languages={['en', 'pt']}
-	>
-		<App />
-	</LanguageProvider>
+<LanguageProvider
+  language={'pt'}
+  languages={['en', 'pt']}
+>
+  <App />
+</LanguageProvider>
 ```
 
 ### useLanguage
@@ -61,7 +60,7 @@ A hook to access the current language, language options and change the current l
 It can only be directly used inside functional components, as shown below.
 
 ```js
-	const [ { language, options }, setLanguage ] = useLanguage();
+const [ { language, options }, setLanguage ] = useLanguage();
 ```
 
 ### chooseStrings
@@ -72,14 +71,14 @@ For the following map:
 
 ```js
 const i18nMap = {
-	en: {
-		description: 'Currently using',
-		options: 'Options',
-	},
-	pt: {
-		description: 'Atualmente usando',
-		options: 'Opções',
-	},
+  en: {
+    description: 'Currently using',
+    options: 'Options',
+  },
+  pt: {
+    description: 'Atualmente usando',
+    options: 'Opções',
+  },
 }
 ```
 
@@ -95,45 +94,45 @@ import React from 'react';
 import LanguageProvider, { useLanguage, chooseStrings } from './LanguageKit';
 
 const i18nMap = {
-	en: {
-		description: 'Currently using',
-		options: 'Options',
-	},
-	pt: {
-		description: 'Atualmente usando',
-		options: 'Opções',
-	},
+  en: {
+    description: 'Currently using',
+    options: 'Options',
+  },
+  pt: {
+    description: 'Atualmente usando',
+    options: 'Opções',
+  },
 }
 
 function App() {
-	const strings = chooseStrings(i18nMap);
-	const [ { language, options }, setLanguage ] = useLanguage();
+  const strings = chooseStrings(i18nMap);
+  const [ { language, options }, setLanguage ] = useLanguage();
 
-	return (
-		<>
-			<p>
-				{strings.description}: {language}
-			</p>
+  return (
+    <>
+      <p>
+        {strings.description}: {language}
+      </p>
 
-			<p>
-				{strings.options}
-				<select value={language} onChange={e => setLanguage(e.target.value)}>
-					{options.map(option => (<option value={option}>{option.toUpperCase()}</option>))}
-				</select>
-			</p>
-		</>
-	);
+      <p>
+        {strings.options}
+        <select value={language} onChange={e => setLanguage(e.target.value)}>
+          {options.map(option => (<option value={option}>{option.toUpperCase()}</option>))}
+        </select>
+      </p>
+    </>
+  );
 }
 
 export default function BaseApp() {
-	return (
-		<LanguageProvider
-			language={'pt'}
-			languages={['en', 'pt']}
-		>
-			<App />
-		</LanguageProvider>
-	);
+  return (
+    <LanguageProvider
+      language={'pt'}
+      languages={['en', 'pt']}
+    >
+      <App />
+    </LanguageProvider>
+  );
 }
 ```
 
