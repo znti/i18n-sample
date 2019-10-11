@@ -1,10 +1,5 @@
-const enStrings = {
-  CTA: 'Learn React'
-}
-
-const ptStrings = {
-  CTA: 'Aprenda React'
-}
+const enStrings = require('./en.json');
+const ptStrings = require('./pt.json');
 
 export default {
   en: enStrings,
