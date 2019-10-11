@@ -15,14 +15,17 @@ No external libs are currently being used
 
 ## Defining a component's translations
 
-Each component must then declare strings object that would be used to map the current language to the correct string values.
+Each component must declare a map of language to strings object.
+This map will then be used to select the correct object based on the current language.
 
 ```js
-// ComponentName/i18n/index.js file
+// <ComponentName>/i18n/index.js sample file
 
-/* Both of these could be defined as inline objects aswell */
-const enStrings = require('./en.json');
+/* The object can be either imported from a JSON or defined inline */
 const ptStrings = require('./pt.json');
+const enStrings = {
+	content: 'This is the content description'
+};
 
 export default {
 	en: enStrings,
@@ -68,7 +71,7 @@ A function that receives a map and returns the one corresponding to the current 
 For the following map:
 
 ```js
-const i18nStrings = {
+const i18nMap = {
 	en: {
 		description: 'Currently using',
 		options: 'Options',
@@ -80,7 +83,7 @@ const i18nStrings = {
 }
 ```
 
-`chooseStrings(i18nStrings)` then would return the object mapped by the current language's key.
+`chooseStrings(i18nMap)` then would return the object mapped by the current language's key.
 
 
 ## Sample
@@ -91,7 +94,7 @@ const i18nStrings = {
 import React from 'react';
 import LanguageProvider, { useLanguage, chooseStrings } from './LanguageKit';
 
-const i18nStrings = {
+const i18nMap = {
 	en: {
 		description: 'Currently using',
 		options: 'Options',
@@ -103,7 +106,7 @@ const i18nStrings = {
 }
 
 function App() {
-	const strings = chooseStrings(i18nStrings);
+	const strings = chooseStrings(i18nMap);
 	const [ { language, options }, setLanguage ] = useLanguage();
 
 	return (
