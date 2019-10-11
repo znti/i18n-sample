@@ -7,7 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import LanguageProvider from './LanguageKit';
 
 ReactDOM.render(
-	<LanguageProvider>
+	<LanguageProvider language={'pt'} languages={['en', 'pt', 'es']}>
 		<App />
 	</LanguageProvider>
 , document.getElementById('root'));
