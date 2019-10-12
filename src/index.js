@@ -8,7 +8,7 @@ import LanguageProvider from 'react-language-kit';
 
 ReactDOM.render(
 	<LanguageProvider
-		activeLanguage={'pt'}
+		activeLanguage={'en'}
 		availableLanguages={['en', 'pt']}
 	>
 		<App />
