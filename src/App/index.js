@@ -5,11 +5,11 @@ import './App.css';
 import Header from './Header';
 import Content from './Content';
 
-import { useLanguage } from '../LanguageKit';
+import { useLanguage } from 'react-language-kit';
 
 function App(props) {
 
-  const [ i18n, setLanguage ] = useLanguage();
+  const [ { language, options }, setLanguage ] = useLanguage();
 
   return (
     <div className="App">
@@ -21,8 +21,8 @@ function App(props) {
 				<Content />
 
 				<p>
-	        <select value={i18n.language} onChange={e => setLanguage(e.target.value)}>
-						{i18n.options.map(option => (<option value={option}>{option.toUpperCase()}</option>))}
+	        <select value={language} onChange={e => setLanguage(e.target.value)}>
+						{options.map(option => (<option key={option} value={option}>{option.toUpperCase()}</option>))}
 	        </select>
 				</p>
 

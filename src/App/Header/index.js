@@ -1,10 +1,12 @@
 import React from 'react';
-import { chooseStrings } from '../../LanguageKit';
-import i18nStrings from './i18n';
+import { useLanguage } from 'react-language-kit';
+
+import i18nMap from './i18n';
 
 export default function Header() {
 
-  const strings = chooseStrings(i18nStrings);
+	const [ { language } ] = useLanguage();
+	const strings = i18nMap[language];
 
 	return (
     <p>
