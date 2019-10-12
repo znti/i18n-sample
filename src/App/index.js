@@ -12,6 +12,17 @@ function App(props) {
 	const [ language, setLanguage ] = useActiveLanguage();
 	const [ options, setOptions ] = useAvailableLanguages();
 
+	const stringsMap = {
+		'en': {
+			button: 'Revert languages list'
+		},
+		'pt': {
+			button: 'Inverter lista de idiomas'
+		}
+	}
+
+	const strings = stringsMap[language];
+
 	return (
 		<div className="App">
 			<header className="App-header">
@@ -26,6 +37,11 @@ function App(props) {
 						{options.map(option => (<option key={option} value={option}>{option.toUpperCase()}</option>))}
 					</select>
 				</p>
+
+
+				<button onClick={e => setOptions(options => [...options].reverse())}>
+					{strings.button}
+				</button>
 
 			</header>
 		</div>
