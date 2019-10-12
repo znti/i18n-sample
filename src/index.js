@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import LanguageProvider from './LanguageKit';
+import LanguageProvider from 'react-language-kit';
 
 ReactDOM.render(
-	<LanguageProvider language={'pt'} languages={['en', 'pt', 'es']}>
+	<LanguageProvider
+		language={'pt'}
+		languages={['en', 'pt']}
+	>
 		<App />
 	</LanguageProvider>
 , document.getElementById('root'));
