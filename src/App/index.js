@@ -5,30 +5,31 @@ import './App.css';
 import Header from './Header';
 import Content from './Content';
 
-import { useLanguage } from 'react-language-kit';
+import { useActiveLanguage, useAvailableLanguages } from 'react-language-kit';
 
 function App(props) {
 
-  const [ { language, options }, setLanguage ] = useLanguage();
+	const [ language, setLanguage ] = useActiveLanguage();
+	const [ options, setOptions ] = useAvailableLanguages();
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+	return (
+		<div className="App">
+			<header className="App-header">
+				<img src={logo} className="App-logo" alt="logo" />
 
 				<Header />
 
 				<Content />
 
 				<p>
-	        <select value={language} onChange={e => setLanguage(e.target.value)}>
+					<select value={language} onChange={e => setLanguage(e.target.value)}>
 						{options.map(option => (<option key={option} value={option}>{option.toUpperCase()}</option>))}
-	        </select>
+					</select>
 				</p>
 
-      </header>
-    </div>
-  );
+			</header>
+		</div>
+	);
 }
 
 export default App;
