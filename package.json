@@ -1,11 +1,11 @@
 {
   "name": "i18n-sample",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "private": true,
   "dependencies": {
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
-    "react-language-kit": "^0.1.1",
+    "react-language-kit": "^0.1.3",
     "react-scripts": "3.2.0"
   },
   "scripts": {
